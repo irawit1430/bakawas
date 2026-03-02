@@ -1,0 +1,165 @@
+.level-3 {
+    background: radial-gradient(ellipse at 50% 50%, rgba(255, 214, 165, 0.15), transparent 60%);
+}
+
+.pp-subtitle {
+    font-size: 0.9rem;
+    color: var(--peach);
+    margin-bottom: 16px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.pp-counter {
+    font-size: 2.8rem;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 4px 0 #cc8800;
+    margin-bottom: 6px;
+    animation: popIn 0.3s ease;
+}
+
+.pp-message {
+    font-size: 0.95rem;
+    color: var(--pink-light);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.pp-tap-area {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    margin-bottom: 20px;
+}
+
+.pp-bowl {
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(255, 214, 165, 0.2), rgba(255, 143, 171, 0.1));
+    border: 3px solid rgba(255, 214, 165, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 30px rgba(255, 214, 165, 0.2);
+}
+
+.pp-bowl:active {
+    transform: scale(0.92);
+}
+
+.pp-shake {
+    animation: shake 0.2s ease !important;
+}
+
+.pp-plate {
+    font-size: 2.5rem;
+}
+
+.pp-puris {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.pp-puri {
+    position: absolute;
+    font-size: 1.4rem;
+    animation: bounce 1.5s ease-in-out infinite;
+}
+
+.pp-puri:nth-child(1) {
+    top: 10%;
+    left: 15%;
+}
+
+.pp-puri:nth-child(2) {
+    top: 5%;
+    right: 15%;
+    animation-delay: 0.2s;
+}
+
+.pp-puri:nth-child(3) {
+    bottom: 20%;
+    left: 8%;
+    animation-delay: 0.4s;
+}
+
+.pp-puri:nth-child(4) {
+    bottom: 15%;
+    right: 10%;
+    animation-delay: 0.6s;
+}
+
+.pp-puri:nth-child(5) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+}
+
+.pp-water {
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+    font-size: 1.2rem;
+    animation: sparkle 2s infinite;
+}
+
+.pp-tap-text {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.5rem;
+    color: var(--peach);
+    margin-top: 8px;
+    opacity: 0.7;
+    animation: badgePulse 2s infinite;
+}
+
+.pp-pop {
+    position: absolute;
+    font-size: 1.4rem;
+    animation: popFloat 0.8s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes popFloat {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-80px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.pp-achievement {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    animation: popIn 0.5s ease;
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.pp-achievement span {
+    font-size: 1.3rem;
+}
+
+.pp-achievement p {
+    font-size: 0.8rem;
+    color: var(--gold);
+}

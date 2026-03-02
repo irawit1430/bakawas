@@ -1,0 +1,126 @@
+.level-2 {
+    background: radial-gradient(ellipse at 50% 30%, rgba(200, 182, 255, 0.15), transparent 60%);
+}
+
+.clouds {
+    position: relative;
+    width: 100%;
+    height: 55px;
+    margin-bottom: 16px;
+}
+
+.cloud {
+    position: absolute;
+    font-size: 2.4rem;
+    opacity: 0.35;
+    animation: cloudFloat 6s ease-in-out infinite;
+}
+
+.c1 {
+    left: 5%;
+    top: 0;
+}
+
+.c2 {
+    left: 50%;
+    top: 12px;
+    animation-delay: 2s;
+    font-size: 2.8rem;
+}
+
+.c3 {
+    left: 78%;
+    top: 4px;
+    animation-delay: 4s;
+}
+
+@keyframes cloudFloat {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(15px);
+    }
+}
+
+.sign-board {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.sign-post {
+    width: 10px;
+    height: 70px;
+    background: linear-gradient(180deg, #8B7355, #6d5a42);
+    border-radius: 4px;
+    margin: 0 auto;
+    margin-top: -8px;
+    border: 2px solid #5a4632;
+    z-index: 0;
+    position: relative;
+}
+
+.sign-face {
+    background: linear-gradient(145deg, #fdf6e3, #f5e6c8);
+    border: 4px solid #8B7355;
+    border-radius: var(--radius);
+    padding: 22px 18px;
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--shadow-soft), inset 0 0 20px rgba(139, 115, 85, 0.08);
+}
+
+.sign-title {
+    font-size: 0.5rem;
+    color: #6d5a42;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.sign-message {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+    text-align: center;
+}
+
+.sign-message strong {
+    color: var(--pink-dark);
+}
+
+.sign-from {
+    text-align: right;
+    font-size: 0.82rem;
+    color: var(--purple-dark);
+    margin-top: 14px;
+    font-weight: 600;
+}
+
+.bridge-blocks {
+    display: flex;
+    gap: 5px;
+    margin-top: -16px;
+}
+
+.block {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+    border-radius: 6px;
+    border: 3px solid #5aad85;
+    animation: blockBounce 0.8s ease-in-out infinite alternate;
+    box-shadow: 0 4px 0 #4a9a72;
+}
+
+@keyframes blockBounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-6px);
+    }
+}
