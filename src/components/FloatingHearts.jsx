@@ -7,14 +7,15 @@ export default function FloatingHearts() {
 
     useEffect(() => {
         const el = containerRef.current
-        for (let i = 0; i < 22; i++) {
+        for (let i = 0; i < 14; i++) {
             const span = document.createElement('span')
             span.className = 'floating-heart'
             span.textContent = hearts[Math.floor(Math.random() * hearts.length)]
             span.style.left = Math.random() * 100 + '%'
-            span.style.animationDuration = (8 + Math.random() * 14) + 's'
+            span.style.animationDuration = (10 + Math.random() * 14) + 's'
             span.style.animationDelay = (Math.random() * 12) + 's'
-            span.style.fontSize = (0.8 + Math.random() * 1) + 'rem'
+            span.style.fontSize = (0.8 + Math.random() * 0.8) + 'rem'
+            span.style.willChange = 'transform, opacity'
             el.appendChild(span)
         }
     }, [])
