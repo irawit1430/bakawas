@@ -191,13 +191,12 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
     }
 
     // Update particles
-    for (let i = state.current.particles.length - 1; i >= 0; i--) {
-      const p = state.current.particles[i];
+    state.current.particles = state.current.particles.filter(p => {
       p.x += p.vx;
       p.y += p.vy;
       p.life -= 0.05;
-      if (p.life <= 0) state.current.particles.splice(i, 1);
-    }
+      return p.life > 0;
+    });
 
     // Check Win Condition
     const elapsed = (Date.now() - state.current.startTime) / 1000;
