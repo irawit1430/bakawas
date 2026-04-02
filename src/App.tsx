@@ -94,14 +94,7 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
     loop();
   };
 
-  const loop = () => {
-    if (!canvasRef.current || gameState === 'LEVEL_UP') return;
-    const ctx = canvasRef.current.getContext('2d');
-    if (!ctx) return;
-
-    const currentLevel = LEVELS[level - 1];
-    const speed = currentLevel.speed;
-
+  const updatePhysicsAndEntities = (speed: number, currentLevel: typeof LEVELS[0]) => {
     state.current.frames++;
     state.current.bgOffset = (state.current.bgOffset + speed * 0.5) % 40;
     
@@ -145,7 +138,9 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
       });
       state.current.lastCollectibleFrame = state.current.frames;
     }
+  };
 
+  const handleCollisions = (speed: number) => {
     const pX = 50;
     const pY = state.current.playerY;
     const pSize = 24;
@@ -165,7 +160,7 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
         setGameState('GAME_OVER');
         setDeaths(d => d + 1);
         createParticles(pX, pY, '#ef4444', 30); // Death explosion
-        return;
+        return true; // Indicates game over
       }
 
       if (!obs.passed && obs.x < pX) {
@@ -199,7 +194,10 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
       if (p.life <= 0) state.current.particles.splice(i, 1);
     }
 
-    // Check Win Condition
+    return false;
+  };
+
+  const checkWinCondition = (currentLevel: typeof LEVELS[0]) => {
     const elapsed = (Date.now() - state.current.startTime) / 1000;
     if (elapsed >= currentLevel.time) {
       if (level < LEVELS.length) {
@@ -212,10 +210,12 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
       } else {
         onWin();
       }
-      return;
+      return true;
     }
+    return false;
+  };
 
-    // --- DRAWING ---
+  const renderGame = (ctx: CanvasRenderingContext2D, currentLevel: typeof LEVELS[0]) => {
     ctx.clearRect(0, 0, 300, 400);
     
     // Background
@@ -287,12 +287,30 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
     ctx.font = 'bold 16px sans-serif';
     ctx.fillText(`Level ${level}: ${currentLevel.name}`, 10, 24);
     
+    const elapsed = (Date.now() - state.current.startTime) / 1000;
     ctx.font = '14px sans-serif';
     ctx.fillText(`Time: ${Math.max(0, currentLevel.time - elapsed).toFixed(1)}s`, 10, 44);
     
     ctx.fillStyle = '#fbbf24';
     ctx.font = 'bold 16px sans-serif';
     ctx.fillText(`Score: ${score}`, 200, 24);
+  };
+
+  const loop = () => {
+    if (!canvasRef.current || gameState === 'LEVEL_UP') return;
+    const ctx = canvasRef.current.getContext('2d');
+    if (!ctx) return;
+
+    const currentLevel = LEVELS[level - 1];
+    const speed = currentLevel.speed;
+
+    updatePhysicsAndEntities(speed, currentLevel);
+
+    if (handleCollisions(speed)) return;
+
+    if (checkWinCondition(currentLevel)) return;
+
+    renderGame(ctx, currentLevel);
 
     requestRef.current = requestAnimationFrame(loop);
   };
