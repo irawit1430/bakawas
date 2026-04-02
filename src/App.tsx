@@ -239,9 +239,9 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
     ctx.fillRect(0, 330, 300, 4);
 
     // Trail
+    ctx.font = '20px Arial';
     state.current.trail.forEach((t, i) => {
       ctx.globalAlpha = (i + 1) / 10;
-      ctx.font = '20px Arial';
       ctx.fillText(currentLevel.emoji, t.x - 5, t.y + 28);
     });
     ctx.globalAlpha = 1.0;

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head><title>Canvas Benchmark</title></head>
+<body>
+<canvas id="c" width="300" height="400"></canvas>
+<div id="output">Running...</div>
+<script>
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+
+  const trail = [];
+  for (let i = 0; i < 8; i++) trail.push({x: i * 10, y: i * 10});
+
+  function benchUnoptimized() {
+    const start = performance.now();
+    for (let j = 0; j < 100000; j++) {
+      trail.forEach((t, i) => {
+        ctx.globalAlpha = (i + 1) / 10;
+        ctx.font = '20px Arial';
+        ctx.fillText('🍟', t.x - 5, t.y + 28);
+      });
+      ctx.globalAlpha = 1.0;
+    }
+    return performance.now() - start;
+  }
+
+  function benchOptimized() {
+    const start = performance.now();
+    for (let j = 0; j < 100000; j++) {
+      ctx.font = '20px Arial';
+      trail.forEach((t, i) => {
+        ctx.globalAlpha = (i + 1) / 10;
+        ctx.fillText('🍟', t.x - 5, t.y + 28);
+      });
+      ctx.globalAlpha = 1.0;
+    }
+    return performance.now() - start;
+  }
+
+  setTimeout(() => {
+    // Warmup
+    benchUnoptimized();
+    benchOptimized();
+
+    const unopt = benchUnoptimized();
+    const opt = benchOptimized();
+
+    document.getElementById('output').innerText = JSON.stringify({ unoptimized: unopt, optimized: opt });
+  }, 100);
+</script>
+</body>
+</html>
