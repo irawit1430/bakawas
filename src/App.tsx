@@ -22,7 +22,7 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
   const state = useRef({
     playerY: 300,
     playerVy: 0,
-    obstacles: [] as {x: number, w: number, h: number, passed: boolean}[],
+    obstacles: [] as {x: number, w: number, h: number, passed: boolean, cacheCanvas: HTMLCanvasElement}[],
     collectibles: [] as {x: number, y: number, collected: boolean, type: string}[],
     particles: [] as {x: number, y: number, vx: number, vy: number, life: number, color: string}[],
     trail: [] as {x: number, y: number}[],
@@ -126,11 +126,31 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
     // Spawn obstacles
     const obstacleInterval = Math.max(40, 90 - level * 8); // Gets faster
     if (state.current.frames - state.current.lastObstacleFrame > obstacleInterval + Math.random() * 40) {
+      const w = 20 + Math.random() * 15;
+      const h = 25 + Math.random() * (15 + level * 5); // Taller obstacles in later levels
+
+      // Pre-render the obstacle with shadow
+      const cacheCanvas = document.createElement('canvas');
+      const padding = 20; // Enough space for shadow
+      cacheCanvas.width = w + padding * 2;
+      cacheCanvas.height = h + padding * 2;
+      const cacheCtx = cacheCanvas.getContext('2d');
+      if (cacheCtx) {
+        cacheCtx.fillStyle = '#ef4444';
+        cacheCtx.shadowBlur = 15;
+        cacheCtx.shadowColor = '#ef4444';
+        cacheCtx.fillRect(padding, padding, w, h);
+        cacheCtx.fillStyle = '#fca5a5';
+        cacheCtx.fillRect(padding + 2, padding + 2, w - 4, h - 4);
+        cacheCtx.shadowBlur = 0;
+      }
+
       state.current.obstacles.push({
         x: 300,
-        w: 20 + Math.random() * 15,
-        h: 25 + Math.random() * (15 + level * 5), // Taller obstacles in later levels
-        passed: false
+        w,
+        h,
+        passed: false,
+        cacheCanvas
       });
       state.current.lastObstacleFrame = state.current.frames;
     }
@@ -257,13 +277,8 @@ const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
 
     // Obstacles
     state.current.obstacles.forEach(obs => {
-      ctx.fillStyle = '#ef4444';
-      ctx.shadowBlur = 15;
-      ctx.shadowColor = '#ef4444';
-      ctx.fillRect(obs.x, 330 - obs.h, obs.w, obs.h);
-      ctx.fillStyle = '#fca5a5';
-      ctx.fillRect(obs.x + 2, 330 - obs.h + 2, obs.w - 4, obs.h - 4);
-      ctx.shadowBlur = 0;
+      // Draw pre-rendered obstacle, offsetting by the padding used during pre-rendering
+      ctx.drawImage(obs.cacheCanvas, obs.x - 20, 330 - obs.h - 20);
     });
 
     // Collectibles
