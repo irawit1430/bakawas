@@ -11,7 +11,7 @@ const LEVELS = [
   { emoji: '🧆', speed: 9, time: 20, name: "PANI PURI BOSS!", bg: '#faf5ff', ground: '#e9d5ff' }
 ];
 
-const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
+export const QuitOrDie = ({ onWin }: { onWin: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [level, setLevel] = useState(1);
   const [gameState, setGameState] = useState<'START' | 'PLAYING' | 'LEVEL_UP' | 'GAME_OVER'>('START');
